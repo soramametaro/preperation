@@ -1,64 +1,121 @@
-#include <stdio.h>
+#include <GL/gl.h>
+#include <GL/glut.h>
+#include <cmath>
 #include <math.h>
-#include <GL/glut.H>
+#include <stdio.h>
 
-//ƒŒƒ“ƒ_ƒŠƒ“ƒO‚ÌŠÖ”
-void display(void){ 
-  //ƒXƒNƒŠ[ƒ“‚Æ•ÏŠ·s—ñ‚ğ‰Šú‰»
-  glClear(GL_COLOR_BUFFER_BIT); 
-  glLoadIdentity();
-  
-  //‰Û‘è‚ÍˆÈ‰º‚Ì•”•ª‚ğ•ÏX‚·‚é
-  glPointSize(10); //“_‚Ì‘å‚«‚³‚Ìİ’è 10 ‰æ‘f•ª
-  glBegin(GL_POINTS);
-    glColor3f(1,0,0); //Ô
-    glVertex3f(0,0.5,0);
-    glColor3f(0,1,0); //—Î
-    glVertex3f(0,0,0);
-    glColor3f(0,0,1); //Â
-    glVertex3f(0.5,0,0);
-  glEnd();
-  
-  glFlush(); //ƒXƒNƒŠ[ƒ“‚Ö•\¦
-} 
+// ãƒ¬ãƒ³ãƒ€ãƒªãƒ³ã‚°ã®é–¢æ•°
+void display(void)
+{
+    // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã¨å¤‰æ›è¡Œåˆ—ã‚’åˆæœŸåŒ–
+    glClear(GL_COLOR_BUFFER_BIT);
+    glLoadIdentity();
 
-//ƒEƒBƒ“ƒhƒE‚Ì‘å‚«‚³‚ª•Ï‚í‚Á‚½‚ÉŒÄ‚Î‚ê‚éŠÖ”
-void myReshape(int w, int h){
-  glViewport(0, 0, w, h); //ƒXƒNƒŠ[ƒ“‚Ì‘å‚«‚³‚ğŒˆ‚ß‚é
-  
-  //•ÏŠ·s—ñ‚ğİ’è
-  glMatrixMode(GL_PROJECTION); 
-  glLoadIdentity();
-  
-  //•½s“Š‰e‚Ì‚½‚ß‚Ìƒpƒ‰ƒ[ƒ^‚ğİ’è
-  //Œ©‚¦‚é—Ìˆæ‚Í (-1,-1,-1) ‚Æ (1,1,1) ‚ğƒR[ƒi[‚É‚Â—§•û‘Ì‚Ì’†
-  glOrtho(-1, 1, //¶‰E
-          -1, 1, //‰ºã
-          -1, 1 //è‘O‰œ
-          );
-  
-  glMatrixMode(GL_MODELVIEW); //}Œ`•`‰æƒ‚[ƒh‚ÖØ‚è‘Ö‚¦
-} 
+    // èª²é¡Œã¯ä»¥ä¸‹ã®éƒ¨åˆ†ã‚’å¤‰æ›´ã™ã‚‹
 
-void myinit(){
-  //”wŒi‚ÌF‚ğİ’è (‚S”Ô–Ú‚Í“§‰ß“x‚Å’Êí‚Í•s“§–¾‚È‚Ì‚Å 1 ‚ğİ’è)
-  glClearColor (1, 1, 1, 1);
+    // 1:é»„è‰²å››è§’
+    glBegin(GL_POLYGON);
+    glColor3d(1.0, 1.0, 0.0);
+    glVertex3f(0.8, 0.8, 0);
+    glVertex3f(0.3, 0.8, 0);
+    glVertex3f(0.3, 0.3, 0);
+    glVertex3f(0.8, 0.3, 0);
+    glEnd();
 
+    // 2:é»’æ å››è§’
+    glBegin(GL_LINE_LOOP);
+    glColor3d(0, 0, 0);
+    glVertex3f(-0.3, 0.8, 0);
+    glVertex3f(-0.8, 0.8, 0);
+    glVertex3f(-0.8, 0.3, 0);
+    glVertex3f(-0.3, 0.3, 0);
+    glEnd();
+
+    // 3:é’æ˜Ÿ
+    glColor3f(0.0, 0.0, 1.0);  // é’è‰²
+    for (int i = 0; i < 5; i++) {
+        glPushMatrix();
+        glRotatef(72 * i, 0, 0, 1);
+        glBegin(GL_POLYGON);
+        glVertex3f(0, 0.6, 0);
+        glVertex3f(-0.15, 0.15, 0);
+        glVertex3f(0, 0, 0);
+        glVertex3f(0.15, 0.15, 0);
+        glEnd();
+        glPopMatrix();
+    }
+
+    // 4:ãƒ”ãƒ³ã‚¯ã‚³
+    glColor3d(1, 0, 1);
+    glBegin(GL_POLYGON);
+    glVertex3f(-0.4, -0.2, 0);
+    glVertex3f(-0.8, -0.2, 0);
+    glVertex3f(-0.8, -0.8, 0);
+    glVertex3f(-0.4, -0.8, 0);
+    glEnd();
+
+    // ä¸­ã‚’ç™½ã§åŸ‹ã‚ã‚‹
+    glColor3d(1, 1, 1);
+    glBegin(GL_POLYGON);
+    glVertex3f(-0.6, -0.4, 0);
+    glVertex3f(-0.8, -0.4, 0);
+    glVertex3f(-0.8, -0.6, 0);
+    glVertex3f(-0.6, -0.6, 0);
+    glEnd();
+
+    // 5:å¤šè§’å½¢
+    glColor3d(0, 1, 1);
+    glTranslatef(0, -0.7, 0);
+    glBegin(GL_POLYGON);
+    for (int i = 0; i < 10; i++) {
+        double angle = 2.0 * M_PI * i / 10;
+        double x = 0.2 * cos(angle);
+        double y = 0.2 * sin(angle);
+        glVertex3f(x, y, 0);
+    }
+    glEnd();
+
+    glFlush();  // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã¸è¡¨ç¤º
 }
 
-int main(int argc, char** argv){
-  //ƒEƒBƒ“ƒhƒE‚Ì‰Šú‰»
-  glutInit(&argc, argv); 
-  glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB); //g—p‚·‚éƒoƒbƒtƒ@‚Ìİ’è
-  glutInitWindowSize(500, 500); //ƒEƒBƒ“ƒhƒE‚Ì‘å‚«‚³
-  glutCreateWindow("1-1"); //ƒEƒBƒ“ƒhƒE‚Ìƒ^ƒCƒgƒ‹
-  
-  
-  myinit();//OpenGL ‚Ì‰Šú‰»
-  glutReshapeFunc(myReshape);//ƒEƒBƒ“ƒhƒEƒTƒCƒY‚ª•ÏX‚³‚ê‚½‚ÉŒÄ‚Î‚ê‚éŠÖ”‚ğİ’è
-  glutDisplayFunc(display); //ƒEƒBƒ“ƒhƒE‚ÌXV‚Ì‚½‚ß‚ÌŠÖ”‚ğİ’è
-  glutMainLoop(); //ƒƒCƒ“ƒ‹[ƒv
-  
-  return 0;
+// ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å¤§ãã•ãŒå¤‰ã‚ã£ãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹é–¢æ•°
+void myReshape(int w, int h)
+{
+    glViewport(0, 0, w, h);  // ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã®å¤§ãã•ã‚’æ±ºã‚ã‚‹
+
+    // å¤‰æ›è¡Œåˆ—ã‚’è¨­å®š
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+
+    // å¹³è¡ŒæŠ•å½±ã®ãŸã‚ã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ã‚’è¨­å®š
+    // è¦‹ãˆã‚‹é ˜åŸŸã¯ (-1,-1,-1) ã¨ (1,1,1) ã‚’ã‚³ãƒ¼ãƒŠãƒ¼ã«æŒã¤ç«‹æ–¹ä½“ã®ä¸­
+    glOrtho(-1, 1,  // å·¦å³
+        -1, 1,      // ä¸‹ä¸Š
+        -1, 1       // æ‰‹å‰å¥¥
+    );
+
+    glMatrixMode(GL_MODELVIEW);  // å›³å½¢æç”»ãƒ¢ãƒ¼ãƒ‰ã¸åˆ‡ã‚Šæ›¿ãˆ
 }
 
+void myinit()
+{
+    // èƒŒæ™¯ã®è‰²ã‚’è¨­å®š (ï¼”ç•ªç›®ã¯é€éåº¦ã§é€šå¸¸ã¯ä¸é€æ˜ãªã®ã§ 1 ã‚’è¨­å®š)
+    glClearColor(1, 1, 1, 1);
+}
+
+int main(int argc, char** argv)
+{
+    // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®åˆæœŸåŒ–
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);  // ä½¿ç”¨ã™ã‚‹ãƒãƒƒãƒ•ã‚¡ã®è¨­å®š
+    glutInitWindowSize(500, 500);                 // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®å¤§ãã•
+    glutCreateWindow("1-1");                      // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®ã‚¿ã‚¤ãƒˆãƒ«
+
+
+    myinit();                    // OpenGL ã®åˆæœŸåŒ–
+    glutReshapeFunc(myReshape);  // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚µã‚¤ã‚ºãŒå¤‰æ›´ã•ã‚ŒãŸæ™‚ã«å‘¼ã°ã‚Œã‚‹é–¢æ•°ã‚’è¨­å®š
+    glutDisplayFunc(display);    // ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã®æ›´æ–°ã®ãŸã‚ã®é–¢æ•°ã‚’è¨­å®š
+    glutMainLoop();              // ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—
+
+    return 0;
+}
