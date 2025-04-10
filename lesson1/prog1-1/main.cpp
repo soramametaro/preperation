@@ -1,5 +1,7 @@
-#include <GL/gl.h>
-#include <GL/glut.h>
+//#include <GL/gl.h>
+#include <OpenGL/OpenGL.h>
+//#include <GL/glut.h>
+#include <GLUT/glut.h>
 #include <cmath>
 #include <math.h>
 #include <stdio.h>
