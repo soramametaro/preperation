@@ -10,14 +10,51 @@ void display(void) {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
 
-  // 課題1と2のアフィン変換はここに書く
-  //     // ティーポットをレンダリング (0.5は大きさ)
+  int w = glutGet(GLUT_WINDOW_WIDTH);
+  int h = glutGet(GLUT_WINDOW_HEIGHT);
+  int viewportWidth = w / 3;
 
-  glutSolidTeapot(0.5);
+  for (int i = 0; i < 3; ++i) {
+    glViewport(i * viewportWidth, 0, viewportWidth, h);
 
-  glFlush(); // スクリーンへ表示
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    if (viewportWidth < h)
+      glOrtho(-1.0, 1.0, -h / (float)viewportWidth, h / (float)viewportWidth,
+              -10.0, 10.0);
+    else
+      glOrtho(-viewportWidth / (float)h, viewportWidth / (float)h, -1.0, 1.0,
+              -10.0, 10.0);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    // 視点の切り替え
+    if (i == 0) {
+      // 上面図
+      gluLookAt(0.0, 10.0, 0.0,  // カメラの位置 (Y軸上)
+                0.0, 0.0, 0.0,   // 注視点
+                0.0, 0.0, -1.0); // 上方向をZマイナス
+    } else if (i == 1) {
+      // 正面図
+      gluLookAt(0.0, 0.0, 10.0, // カメラの位置 (Z軸前)
+                0.0, 0.0, 0.0,  // 注視点
+                0.0, 1.0, 0.0); // 上方向をY
+    } else {
+      // 側面図（右から）
+      gluLookAt(10.0, 0.0, 0.0, // カメラの位置 (X軸横)
+                0.0, 0.0, 0.0,  // 注視点
+                0.0, 1.0, 0.0); // 上方向をY
+    }
+
+    // 課題2ではスタックを利用すると楽
+
+    // ティーポットをレンダリング (0.5は大きさ)
+    glutSolidTeapot(0.5);
+
+    glFlush(); // スクリーンへ表示
+  }
 }
-
 // ウィンドウの大きさが変わった時に呼ばれる関数
 void myReshape(int w, int h) {
   glViewport(0, 0, w, h); // スクリーンの大きさを決める
