@@ -91,10 +91,10 @@ void myinit() {
 
   // オブジェクトの反射特性
   // 課題３の反射特性は以下の値を変更する
-  GLfloat mat_specular[] = {0.5, 0.5, 0.5, 1.0};
-  GLfloat mat_diffuse[] = {0.5, 0.5, 1.0, 1.0};
-  GLfloat mat_ambient[] = {0.1, 0.1, 0.2, 1.0};
-  GLfloat mat_shininess = 20.0;
+  GLfloat mat_specular[] = {0.628281, 0.555802, 0.366065, 1.0};
+  GLfloat mat_diffuse[] = {0.75164, 0.60648, 0.22648, 1.0};
+  GLfloat mat_ambient[] = {0.24725, 0.1995, 0.0745, 1.0};
+  GLfloat mat_shininess = 51.2;
 
   // オブジェクトの反射特性を OpenGL へ送る
   glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
